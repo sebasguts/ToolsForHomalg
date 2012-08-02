@@ -16,3 +16,8 @@ ExamplesForHomalg/: 6b6da9c test GetRidOfRowsAndColumnsWithUnits in SimplerEquiv
 
 Versions:
  2012.05.31
+
+Gauss/: 39e4a85 Merge pull request #7 from sebasguts/master
+
+Versions:
+ 2012.04.23
