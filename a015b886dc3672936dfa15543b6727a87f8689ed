@@ -6,3 +6,8 @@ AutomaticDocumentation/: b278276 Fixed a GAP 4.4 bug - why is this done?
 
 Versions:
 2012.07.29 which is Sebas' version
+
+D-Modules/: 05f0bdb declared and installed AssociatedOrderGradedRing and AssociatedOrderGradedModule
+
+Versions:
+ 2012.02.29
