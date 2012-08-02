@@ -70,3 +70,10 @@ MapleForHomalg/: 5f184f8 added s.SendBlockingToCAS_original := SendBlockingToCAS
 
 Versions:
  2011.07.25
+
+MatricesForHomalg/: 51d10f7 fixed typo MatrixOfSymbolsn -> MatrixOfSymbols
+
+Versions:
+2011.09.12 which is Markus' version
+2012.06.30 which is Mohamed's version
+2012.04.22 which is Sebas' version
