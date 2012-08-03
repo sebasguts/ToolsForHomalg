@@ -6,3 +6,8 @@ AutomaticDocumentation/: 3d70af0 Fixed a typo.
 
 Versions:
 2012.08.03 which is Sebas' version
+
+D-Modules/: 05f0bdb declared and installed AssociatedOrderGradedRing and AssociatedOrderGradedModule
+
+Versions:
+ 2012.02.29
