@@ -109,3 +109,10 @@ Versions:
 test_suite/: a8cf244 comply with GAP4.5
 
 Versions:
+
+ToolsForHomalg/: 2e10ccf Some changes. Two entries in source list are now possible.
+
+Versions:
+2011.09.12 which is Markus' version
+2012.10.27 which is Mohamed's version
+2012.12.18:11:56 which is Sebas' version
