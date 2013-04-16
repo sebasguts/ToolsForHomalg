@@ -109,3 +109,10 @@ Versions:
 test_suite/: a8cf244 comply with GAP4.5
 
 Versions:
+
+ToolsForHomalg/: cbc9ef3 Method for comparison can be added
+
+Versions:
+2011.09.12 which is Markus' version
+2012.12.11 which is Mohamed's version
+2013.04.12 which is Sebas' version
