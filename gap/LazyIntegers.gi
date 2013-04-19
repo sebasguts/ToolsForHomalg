@@ -10,14 +10,175 @@
 ##
 #############################################################################
 
+DeclareRepresentation( "IsLazyIntegerRep",
+                       IsLazyInteger and IsAttributeStoringRep,
+                       []
+                     );
 
+DeclareRepresentation( "IsLazyIntegersMinusInfinityRep",
+                       IsLazyInteger and IsAttributeStoringRep,
+                       []
+                     );
 
+DeclareRepresentation( "IsLazyIntegersInfinityRep",
+                       IsLazyInteger and IsAttributeStoringRep,
+                       []
+                     );
 
+BindGlobal( "TheFamilyOfLazyIntegers",
+        NewFamily( "TheFamilyOfLazyIntegers" ) );
 
+BindGlobal( "TheTypeLazyInteger",
+        NewType( TheFamilyOfLazyIntegers,
+                IsLazyIntegerRep ) );
 
+BindGlobal( "TheTypeLazyIntegerMinusInfinity",
+        NewType( TheFamilyOfLazyIntegers,
+                IsLazyIntegersMinusInfinityRep ) );
 
+BindGlobal( "TheTypeLazyIntegerInfinity",
+        NewType( TheFamilyOfLazyIntegers,
+                IsLazyIntegersInfinityRep ) );
 
+#########################
+##
+## (minus) infinity
+##
+#########################
 
+InstallValue( LazyIntegers_Minus_Infinity,
+              rec() );
+
+Objectify( TheTypeLazyIntegerMinusInfinity, LazyIntegers_Minus_Infinity );
+
+InstallValue( LazyIntegers_Infinity,
+              rec() );
+
+Objectify( TheTypeLazyIntegerInfinity, LazyIntegers_Infinity );
+
+##
+InstallMethod( \<,
+               "for infinity",
+               [ IsInt, IsLazyIntegersInfinityRep ],
+               
+  ReturnTrue
+  
+);
+
+##
+InstallMethod( \<,
+               "for infinity",
+               [ IsLazyIntegersInfinityRep, IsInt ],
+               
+  ReturnFalse
+  
+);
+
+##
+InstallMethod( \<,
+               "for infinity",
+               [ IsInt, IsLazyIntegersMinusInfinityRep ],
+               
+  ReturnFalse
+  
+);
+
+##
+InstallMethod( \<,
+               "for infinity",
+               [ IsLazyIntegersMinusInfinityRep, IsInt ],
+               
+  ReturnTrue
+  
+);
+
+##
+InstallMethod( \+,
+               "for infinity",
+               [ IsInt, IsLazyIntegersInfinityRep ],
+               
+  function( x, y )
+    
+    return y;
+    
+end );
+
+##
+InstallMethod( \+,
+               "for infinity",
+               [ IsLazyIntegersInfinityRep, IsInt ],
+               
+  function( x, y )
+    
+    return x;
+    
+end );
+
+##
+InstallMethod( \+,
+               "for infinity",
+               [ IsInt, IsLazyIntegersMinusInfinityRep ],
+               
+  function( x, y )
+    
+    return y;
+    
+end );
+
+##
+InstallMethod( \+,
+               "for infinity",
+               [ IsLazyIntegersMinusInfinityRep, IsInt ],
+               
+  function( x, y )
+    
+    return x;
+    
+end );
+
+##
+InstallMethod( \-,
+               "for infinity",
+               [ IsInt, IsLazyIntegersInfinityRep ],
+               
+  function( x, y )
+    
+    return LazyIntegers_Minus_Infinity;
+    
+end );
+
+##
+InstallMethod( \-,
+               "for infinity",
+               [ IsLazyIntegersInfinityRep, IsInt ],
+               
+  function( x, y )
+    
+    return x;
+    
+end );
+
+##
+InstallMethod( \-,
+               "for infinity",
+               [ IsInt, IsLazyIntegersMinusInfinityRep ],
+               
+  function( x, y )
+    
+    return LazyIntegers_Infinity;
+    
+end );
+
+##
+InstallMethod( \-,
+               "for infinity",
+               [ IsLazyIntegersMinusInfinityRep, IsInt ],
+               
+  function( x, y )
+    
+    return x;
+    
+end );
 
 #########################
 ##

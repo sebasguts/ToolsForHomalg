@@ -10,20 +10,35 @@
 ##
 #############################################################################
 
+DeclareCategory( "IsLazyInteger",
+                 IsObject );
 
+DeclareGlobalFunction( "LazyIntegers_Intervall_Plus" );
 
+DeclareGlobalFunction( "LazyIntegers_Intervall_Minus" );
 
+DeclareGlobalFunction( "LazyIntegers_Intervall_Mult" );
 
+DeclareGlobalFunction( "LazyIntegers_Intervall_Additive_Inverse" );
 
+DeclareOperation( \+,
+                  [ IsInt, IsLazyInteger ] );
 
+DeclareOperation( \-,
+                  [ IsInt, IsLazyInteger ] );
 
+DeclareOperation( \+,
+                  [ IsLazyInteger, IsInt ] );
 
+DeclareOperation( \-,
+                  [ IsLazyInteger, IsInt ] );
 
+#######################
+##
+## infinity
+##
+#######################
 
-DeclareGlobalFunction( LazyIntegers_Intervall_Plus );
+DeclareGlobalVariable( "LazyIntegers_Minus_Infinity" );
 
-DeclareGlobalFunction( LazyIntegers_Intervall_Minus );
-
-DeclareGlobalFunction( LazyIntegers_Intervall_Mult );
-
-DeclareGlobalFunction( LazyIntegers_Intervall_Additive_Inverse );
+DeclareGlobalVariable( "LazyIntegers_Infinity" );
