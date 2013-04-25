@@ -42,6 +42,76 @@ BindGlobal( "TheTypeLazyIntegerInfinity",
 
 #########################
 ##
+## Constructors
+##
+#########################
+
+##
+InstallGlobalFunction( LazyIntegers_Main_Constructor,
+                       
+  function( intervall_list )
+    local integer;
+    
+    if not IsList( intervall_list ) or not ForAll( intervall_list, i -> IsList( i ) and Length( i ) = 2 ) then
+        
+        Error( "input is not a list of intervalls." );
+        
+    fi;
+    
+    integer := rec( intervalls := intervall_list );
+    
+    Objectify( TheTypeLazyInteger, integer );
+    
+    return integer;
+    
+end );
+
+##
+InstallMethod( LazyInteger,
+               "without bounds",
+               [ ],
+               
+  function( )
+    
+    return LazyIntegers_Main_Constructor( [ [ LazyIntegers_Minus_Infinity, LazyIntegers_Infinity ] ] );
+    
+end );
+
+##
+InstallMethod( LazyInteger,
+               "with list of intervalls",
+               [ IsList ],
+               
+  function( list )
+    
+    return LazyIntegers_Main_Constructor( list );
+    
+end );
+
+##
+InstallMethod( LazyIntegerWithLowerBound,
+               "with lower bound",
+               [ IsInt ],
+               
+  function( low )
+    
+    return LazyIntegers_Main_Constructor( [ [ low, LazyIntegers_Infinity ] ] );
+    
+end );
+
+##
+InstallMethod( LazyIntegerWithUpperBound,
+               "with upper bound",
+               [ IsInt ],
+               
+  function( up )
+    
+    return LazyIntegers_Main_Constructor( [ [ LazyIntegers_Minus_Infinity, up ] ] );
+    
+end );
+
+#########################
+##
 ## (minus) infinity
 ##
 #########################
@@ -180,6 +250,96 @@ InstallMethod( \-,
     
 end );
 
+##
+InstallMethod( \*,
+               "for infinity",
+               [ IsInt, IsLazyIntegersInfinityRep ],
+               
+  function( x, y )
+    
+    if x < 0 then
+        
+        return LazyIntegers_Minus_Infinity;
+        
+    elif x > 0 then
+        
+        return LazyIntegers_Infinity;
+        
+    else
+        
+        return 0;
+        
+    fi;
+    
+end );
+
+##
+InstallMethod( \*,
+               "for infinity",
+               [ IsLazyIntegersInfinityRep, IsInt ],
+               
+  function( x, y )
+    
+    return y * x;
+    
+end );
+
+##
+InstallMethod( \*,
+               "for infinity",
+               [ IsInt, IsLazyIntegersMinusInfinityRep ],
+               
+  function( x, y )
+    
+    if x < 0 then
+        
+        return LazyIntegers_Infinity;
+        
+    elif x > 0 then
+        
+        return LazyIntegers_Minus_Infinity;
+        
+    else
+        
+        return 0;
+        
+    fi;
+    
+end );
+
+##
+InstallMethod( \*,
+               "for infinity",
+               [ IsLazyIntegersMinusInfinityRep, IsInt ],
+               
+  function( x, y )
+    
+    return y * x;
+    
+end );
+
+##
+InstallMethod( CurrentLowerBound,
+               "for lazy integers",
+               [ IsLazyIntegerRep ],
+               
+  function( x )
+    
+    return Minimum( List( x!.intervalls, i -> i[ 1 ] ) );
+    
+end );
+
+##
+InstallMethod( CurrentUpperBound,
+               "for lazy integers",
+               [ IsLazyIntegerRep ],
+               
+  function( x )
+    
+    return Minimum( List( x!.intervalls, i -> i[ 2 ] ) );
+    
+end );
+
 #########################
 ##
 ## Tool functions
@@ -268,3 +428,87 @@ InstallGlobalFunction( LazyIntegers_Intervall_Additive_Inverse,
     return [ - intervall[ 2 ], - intervall[ 1 ] ];
     
 end );
+
+########################
+##
+## Display & View
+##
+########################
+
+##
+InstallMethod( ViewObj,
+               "for inf",
+               [ IsLazyIntegersInfinityRep ],
+               
+  function( x )
+    
+    Print( "<infinity>\n" );
+    
+end );
+
+##
+InstallMethod( Display,
+               "for inf",
+               [ IsLazyIntegersInfinityRep ],
+               
+  function( x )
+    
+    Print( "infinity.\n" );
+    
+end );
+
+##
+InstallMethod( ViewObj,
+               "for minus inf",
+               [ IsLazyIntegersMinusInfinityRep ],
+               
+  function( x )
+    
+    Print( "<minus infinity>\n" );
+    
+end );
+
+##
+InstallMethod( Display,
+               "for minus inf",
+               [ IsLazyIntegersMinusInfinityRep ],
+               
+  function( x )
+    
+    Print( "minus infinity.\n" );
+    
+end );
+
+##
+InstallMethod( ViewObj,
+               "for crisp values",
+               [ IsLazyInteger and HasCrispValue ],
+               
+  function( x )
+    
+    Print( Concatenation( String( CrispValue( x ) ), "\n" ) );
+    
+end );
+
+##
+InstallMethod( Display,
+               "for crisp values",
+               [ IsLazyInteger and HasCrispValue ],
+               
+  function( x )
+    
+    Print( Concatenation( String( CrispValue( x ) ), "\n" ) );
+    
+end );
+
+##
+InstallMethod( ViewObj,
+               "for lazy integers"
+               [ LazyInteger ],
+               
+  function( x )
+    
+    Print( Concatenation( "<A lazy integer currently between ", String( CurrentLowerBound( x ) ), " and ", String( CurrentUpperBound( x ) ), ">\n" ) );
+    
+end );
+

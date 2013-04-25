@@ -21,17 +21,55 @@ DeclareGlobalFunction( "LazyIntegers_Intervall_Mult" );
 
 DeclareGlobalFunction( "LazyIntegers_Intervall_Additive_Inverse" );
 
-DeclareOperation( \+,
+DeclareOperation( "\+",
                   [ IsInt, IsLazyInteger ] );
 
-DeclareOperation( \-,
+DeclareOperation( "\-",
                   [ IsInt, IsLazyInteger ] );
 
-DeclareOperation( \+,
+DeclareOperation( "\*",
+                  [ IsInt, IsLazyInteger ] );
+
+DeclareOperation( "\+",
                   [ IsLazyInteger, IsInt ] );
 
-DeclareOperation( \-,
+DeclareOperation( "\-",
                   [ IsLazyInteger, IsInt ] );
+
+DeclareOperation( "\*",
+                  [ IsLazyInteger, IsInt ] );
+
+DeclareOperation( "CurrentLowerBound",
+                  [ IsLazyInteger ] );
+
+DeclareOperation( "CurrentUpperBound",
+                  [ IsLazyInteger ] );
+
+DeclareFilter( "IsCrisp",
+               IsLazyInteger );
+
+DeclareAttribute( "CrispValue",
+                  IsLazyInteger );
+
+#######################
+##
+## Constructors
+##
+#######################
+
+DeclareGlobalFunction( "LazyIntegers_Main_Constructor" );
+
+DeclareOperation( "LazyInteger",
+                  [ ] );
+
+DeclareOperation( "LazyIntegerWithLowerBound",
+                  [ IsInt ] );
+
+DeclareOperation( "LazyIntegerWithUpperBound",
+                  [ IsInt ] );
+
+DeclareOperation( "LazyInteger",
+                  [ IsList ] );
 
 #######################
 ##
