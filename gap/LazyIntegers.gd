@@ -21,6 +21,10 @@ DeclareGlobalFunction( "LazyIntegers_Intervall_Mult" );
 
 DeclareGlobalFunction( "LazyIntegers_Intervall_Additive_Inverse" );
 
+DeclareGlobalFunction( "LazyIntegers_Intervall_List_To_Disjoint_Union" );
+
+DeclareGlobalFunction( "LazyIntegers_Intervall_Intersect" );
+
 DeclareOperation( "\+",
                   [ IsInt, IsLazyInteger ] );
 
@@ -45,11 +49,56 @@ DeclareOperation( "CurrentLowerBound",
 DeclareOperation( "CurrentUpperBound",
                   [ IsLazyInteger ] );
 
+DeclareOperation( "SetEqual",
+                  [ IsLazyInteger, IsLazyInteger ] );
+
+#######################
+##
+## Setters for bounds
+##
+#######################
+
 DeclareFilter( "IsCrisp",
                IsLazyInteger );
 
 DeclareAttribute( "CrispValue",
                   IsLazyInteger );
+
+DeclareOperation( "SetLowerBound",
+                  [ IsLazyInteger, IsInt ] );
+
+DeclareOperation( "SetUpperBound",
+                  [ IsLazyInteger, IsInt ] );
+
+DeclareOperation( "SetBounds",
+                  [ IsLazyInteger, IsList ] );
+
+DeclareOperation( "SetNotEqualTo",
+                  [ IsLazyInteger, IsInt ] );
+
+#######################
+##
+## Arithmetics
+##
+#######################
+
+DeclareGlobalFunction( "LazyIntegers_Update_Lower_Bound" );
+
+DeclareGlobalFunction( "LazyIntegers_Update_Upper_Bound" );
+
+DeclareGlobalFunction( "LazyIntegers_Update_Not_Equal" );
+
+#######################
+##
+## Arithmetics
+##
+#######################
+
+DeclareOperation( "\+",
+                  [ IsLazyInteger, IsLazyInteger ] );
+
+DeclareOperation( "\*",
+                  [ IsLazyInteger, IsLazyInteger ] );
 
 #######################
 ##
