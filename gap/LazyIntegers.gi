@@ -810,39 +810,15 @@ InstallMethod( SetEqual,
         
         Add( int2!.equals, int1 );
         
-    fi;
-    
-    start_point_list := List( new_intervalls, i -> i[ 1 ] );
-    
-    end_point_list := List( new_intervalls, i -> i[ 2 ] );
-    
-    if Position( start_point_list, LazyIntegers_Minus_Infinity ) <> fail then
-        
-        start_point := Minimum( end_point_list );
-        
-    else
-        
-        start_point := Minimum( start_point_list );
-        
-        SetLowerBound( int1, start_point );
-        
-        SetLowerBound( int2, start_point );
+        return;
         
     fi;
     
-    if Position( end_point_list, LazyIntegers_Infinity ) <> fail then
-        
-        end_point := Maximum( start_point_list );
-        
-    else
-        
-        end_point := Maximum( end_point_list );
-        
-        SetUpperBound( int1, end_point );
-        
-        SetUpperBound( int2, end_point );
-        
-    fi;
+    start_point_list := Concatenation( List( int1!.intervalls, i -> i[ 1 ] ), List( int2!.intervalls, i -> i[ 1 ] ) );
+    
+    end_point_list := Concatenation( List( int1!.intervalls, i -> i[ 2 ] ), List( int2!.intervalls, i -> i[ 2 ] ) );
+    
+#     if CurrentLowerBound( int1 ) = LazyIntegers_Minus_Infinity and CurrentLowerBound( int2 ) = Lazy
     
     for i in [ start_point .. end_point ] do
         
