@@ -18,3 +18,8 @@ D-Modules/: 8622ce8 Fixed makedoc.g
 
 Versions:
  2014.07.04
+
+ExamplesForHomalg/: b5252ee Fixed (A3_)Purity.g, complying with Modules v.2013.04.26
+
+Versions:
+ 2013.04.26
