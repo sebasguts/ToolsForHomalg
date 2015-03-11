@@ -67,3 +67,11 @@ IO_ForHomalg/: a45abd8 updated manual.css
 
 Versions:
  2012.10.22
+
+LocalizeRingForHomalg/: bb3344f New doc style.
+
+Versions:
+2011.04.26 which is Markus' version
+2013.10.25 which is Mohamed's version
+2013.07.15 which is Vinay's version
+2013.11.11 which is Sebas' version
