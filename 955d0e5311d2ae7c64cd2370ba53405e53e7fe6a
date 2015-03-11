@@ -23,3 +23,8 @@ ExamplesForHomalg/: b5252ee Fixed (A3_)Purity.g, complying with Modules v.2013.0
 
 Versions:
  2013.04.26
+
+Gauss/: 58d3066 Corrected filters for SparseKroneckerProduct over GF(2).
+
+Versions:
+ 2014.04.02
