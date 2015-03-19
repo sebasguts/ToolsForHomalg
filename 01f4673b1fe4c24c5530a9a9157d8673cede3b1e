@@ -13,3 +13,8 @@ Conley/: b254f18 UnderlyingSet is now an attribute for IsPoset
 
 Versions:
  2012.10.25
+
+D-Modules/: 8622ce8 Fixed makedoc.g
+
+Versions:
+ 2014.07.04
