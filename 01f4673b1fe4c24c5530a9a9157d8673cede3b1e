@@ -28,3 +28,8 @@ Gauss/: 58d3066 Corrected filters for SparseKroneckerProduct over GF(2).
 
 Versions:
  2014.04.02
+
+GaussForHomalg/: 8b7cf72 updated manual.css
+
+Versions:
+ 2012.10.22
