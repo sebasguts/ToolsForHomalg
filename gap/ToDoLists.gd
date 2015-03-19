@@ -101,7 +101,16 @@ DeclareGlobalFunction( "ToolsForHomalg_ToDoList_TaceProof_RecursivePart" );
 ##
 ###########################################
 
-DeclareGlobalVariable( "TODO_LISTS" );
+# DeclareGlobalVariable( "TODO_LISTS" );
+
+BindThreadLocal( "TODO_LISTS",
+            rec(
+              activated := true,
+              are_currently_activated := true,
+              where_infos := false,
+            )
+           );
+
 
 DeclareFilter( "CanHaveAToDoList", IsObject );
 

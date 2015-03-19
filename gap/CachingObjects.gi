@@ -85,7 +85,9 @@ InstallGlobalFunction( CACHINGOBJECT_HIT,
                        
   function( cache )
     
+    atomic cache!.region do
     cache!.hit_counter := cache!.hit_counter + 1;
+    od;
     
 end );
 
@@ -94,6 +96,7 @@ InstallGlobalFunction( CACHINGOBJECT_MISS,
                        
   function( cache )
     
+    atomic cache!.region do
     cache!.miss_counter := cache!.miss_counter + 1;
     
     if cache!.miss_counter mod 10 = 0 then
@@ -101,6 +104,7 @@ InstallGlobalFunction( CACHINGOBJECT_MISS,
         TOOLS_FOR_HOMALG_CACHE_CLEAN_UP( cache );
         
     fi;
+    od;
     
 end );
 
@@ -181,6 +185,8 @@ InstallGlobalFunction( "TOOLS_FOR_HOMALG_CACHE_CLEAN_UP",
           original_lengths, key_reduce_list, k, runtime, new_length;
     
 #     Print( Runtime() );
+    
+    atomic cache!.region do
     
     positions := List( cache!.keys, i -> Filtered( [ 1 .. LengthWPObj( i ) ], j -> not IsBoundElmWPObj( i, j ) ) );
     
@@ -304,29 +310,38 @@ InstallGlobalFunction( "TOOLS_FOR_HOMALG_CACHE_CLEAN_UP",
 #     
 #     Print( "\n" );
     
+    od;
+    
 end );
 
 InstallGlobalFunction( CATEGORIES_FOR_HOMALG_PREPARE_CACHING_RECORD,
                        
   function( nr_keys )
-    local cache, i;
+    local cache, i, region;
     
-    cache := rec( keys := [ ],
-                  keys_positions := [ ],
-                crisp_keys := [ ],
+    region := NewRegion();
+    
+    atomic region do
+    
+    cache := rec( region := region,
+                keys := MigrateObj( [ ], region ),
+                keys_positions := MigrateObj( [ ], region ),
+                crisp_keys := MigrateObj( [ ], region ),
                 nr_keys := nr_keys,
-                keys_value_list := [ ],
+                keys_value_list := MigrateObj( [ ], region ),
                 value_list_position := 1,
                 crisp_key_position := 1,
                 hit_counter := 0,
                 miss_counter := 0 );
     
-    cache.keys := List( [ 1 .. nr_keys ], i -> WeakPointerObj( [ ] ) );
+    cache.keys := MigrateObj( List( [ 1 .. nr_keys ], i -> MigrateObj( WeakPointerObj( [ ] ), region ) ), region );
     
-    cache!.keys_positions := List( [ 1 .. nr_keys ], i -> 1 );
+    cache!.keys_positions := MigrateObj( List( [ 1 .. nr_keys ], i -> 1 ), region );
     
     ## This is a memory leak, use it with caution
-    cache.crisp_keys := [ ];
+    cache.crisp_keys := MigrateObj( [ ], region );
+    
+    od;
     
     return cache;
     
@@ -339,7 +354,11 @@ InstallGlobalFunction( CreateWeakCachingObject,
     
     cache := CATEGORIES_FOR_HOMALG_PREPARE_CACHING_RECORD( nr_keys );
     
-    cache.value := WeakPointerObj( [ ] );
+    atomic cache.region do
+    
+    cache.value := MigrateObj( WeakPointerObj( [ ] ), cache.region );
+    
+    od;
     
     ObjectifyWithAttributes( cache, TheTypeOfWeakCachingObject );
     
@@ -354,7 +373,11 @@ InstallGlobalFunction( CreateCrispCachingObject,
     
     cache := CATEGORIES_FOR_HOMALG_PREPARE_CACHING_RECORD( nr_keys );
     
-    cache.value := [ ];
+    atomic cache.region do
+    
+    cache.value := MigrateObj( [ ], cache.region );
+    
+    od;
     
     ObjectifyWithAttributes( cache, TheTypeOfCrispCachingObject );
     
@@ -418,7 +441,11 @@ InstallMethod( Add,
                
   function( cache, pos, object )
     
+    atomic cache!.region do
+    
     SetElmWPObj( cache!.value, pos, object );
+    
+    od;
     
 end );
 
@@ -427,7 +454,11 @@ InstallMethod( Add,
                
   function( cache, pos, object )
     
+    atomic cache!.region do
+    
     cache!.value[ pos ] := object;
+    
+    od;
     
 end );
 
@@ -436,6 +467,8 @@ InstallMethod( GetObject,
                
   function( cache, pos, key_pos )
     local list;
+    
+    atomic cache!.region do
     
     list := cache!.value;
     
@@ -457,6 +490,8 @@ InstallMethod( GetObject,
     
     return SuPeRfail;
     
+    od;
+    
 end );
 
 InstallMethod( GetObject,
@@ -464,6 +499,8 @@ InstallMethod( GetObject,
                
   function( cache, pos, key_pos )
     local list;
+    
+    atomic cache!.region do
     
     list := cache!.value;
     
@@ -485,6 +522,8 @@ InstallMethod( GetObject,
     
     return SuPeRfail;
     
+    od;
+    
 end );
 
 InstallMethod( SetCacheValue,
@@ -503,6 +542,8 @@ InstallMethod( SetCacheValue,
     local keys, length_key_list, i, position, entry_position, entry_key, wp_list, crisp_keys,
           input_temp;
     
+    atomic cache!.region do
+    
     length_key_list := Length( key_list );
     
     if cache!.nr_keys <> length_key_list then
@@ -513,7 +554,7 @@ InstallMethod( SetCacheValue,
     
     keys := cache!.keys;
     
-    entry_key := [ ];
+    entry_key := MigrateObj( [ ], cache!.region );
     
     crisp_keys := cache!.crisp_keys;
     
@@ -537,7 +578,7 @@ InstallMethod( SetCacheValue,
                     
                 else
                     
-                    input_temp := WeakPointerObj( key_list[ i ] );
+                    input_temp := MigrateObj( WeakPointerObj( key_list[ i ] ), cache!.region );
                     
                 fi;
                 
@@ -565,6 +606,8 @@ InstallMethod( SetCacheValue,
     
     cache!.value_list_position := entry_position + 1;
     
+    od;
+    
 end );
 
 InstallMethod( CacheValue,
@@ -582,6 +625,8 @@ InstallMethod( CacheValue,
                
   function( cache, key_list )
     local length_key_list, keys, position, i, entry_key, crisp_keys;
+    
+    atomic cache!.region do
     
     length_key_list := Length( key_list );
     
@@ -624,6 +669,8 @@ InstallMethod( CacheValue,
     fi;
     
     return GetObject( cache, position, position );
+    
+    od;
     
 end );
 
@@ -1179,6 +1226,8 @@ BindGlobal( "TOOLS_FOR_HOMALG_CACHE_INSTALL_VIEW",
     func := function( obj )
         local string;
         
+        atomic obj!.region do
+        
         string := "";
         
         if IsWeakCachingObjectRep( obj ) then
@@ -1200,6 +1249,8 @@ BindGlobal( "TOOLS_FOR_HOMALG_CACHE_INSTALL_VIEW",
         Append( string, String( obj!.miss_counter ) );
         
         Append( string, " misses" );
+        
+        od;
         
         return string;
         

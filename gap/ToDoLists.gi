@@ -21,14 +21,6 @@ BindGlobal( "TheTypeToDoList",
         NewType( TheFamilyOfToDoLists,
                 IsToDoListRep ) );
 
-InstallValue( TODO_LISTS,
-            rec(
-              activated := true,
-              are_currently_activated := true,
-              where_infos := false,
-            )
-           );
-
 ################################
 ##
 ## Methods for ToDo-lists.
